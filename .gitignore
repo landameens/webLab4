@@ -35,3 +35,10 @@ build/
 /frontend/node_modules/
 /frontend/.idea/
 /frontend/build/
+
+
+.mvn/
+
+mvnw
+
+mvnw.cmd
