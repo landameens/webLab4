@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class WebLab4Application {
+public class Application {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -15,7 +15,7 @@ public class WebLab4Application {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebLab4Application.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

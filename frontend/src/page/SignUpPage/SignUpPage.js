@@ -63,7 +63,7 @@ export default function SignUpPage() {
                             <TextField
                                 variant="outlined"
                                 required
-                                fullWidthss
+                                fullWidth
                                 id="login"
                                 label="Логин"
                                 name="login"
