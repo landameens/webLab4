@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -11,7 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Copyright from '../../components/Copyright'
-import { SIGN_UP } from '../../utils/routes'
+import { MAIN, SIGN_UP } from '../../utils/routes'
+import apiCaller from '../../utils/apiCaller'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,9 +49,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInPage() {
     const classes = useStyles()
+    const [login, setLogin] = useState('')
+    const [password, setPassword] = useState('')
+
+    const onChangeLogin = (value) => setLogin(value)
+    const onChangePassword = value => setPassword(value)
+
+    const handleSubmit = async event => {
+        event.preventDefault()
+
+        const response = await apiCaller('POST', '/register', {
+            login,
+            password,
+        })
+        console.log(response)
+    }
 
     return (
-        <Grid container component="main" className={classes.root}>
+        <Grid container component='main' className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
             <Grid
@@ -65,48 +81,50 @@ export default function SignInPage() {
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component='h1' variant='h5'>
                         Вход
                     </Typography>
                     <form className={classes.form} noValidate>
                         <TextField
-                            variant="outlined"
-                            margin="normal"
+                            variant='outlined'
+                            margin='normal'
                             required
                             fullWidth
-                            id="login"
-                            label="Логин"
-                            name="login"
-                            autoComplete="login"
+                            id='login'
+                            label='Логин'
+                            name='login'
+                            autoComplete='login'
                             autoFocus
+                            onChange={onChangeLogin}
                         />
                         <TextField
-                            variant="outlined"
-                            margin="normal"
+                            variant='outlined'
+                            margin='normal'
                             required
                             fullWidth
-                            name="password"
-                            label="Пароль"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
+                            name='password'
+                            label='Пароль'
+                            type='password'
+                            id='password'
+                            autoComplete='current-password'
+                            onChange={onChangePassword}
                         />
                         <Button
-                            type="submit"
+                            type='submit'
                             fullWidth
-                            variant="contained"
-                            color="primary"
+                            variant='contained'
+                            color='primary'
                             className={classes.submit}>
                             Войти
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href={'/main'} variant="body2">
+                                <Link href={MAIN} variant='body2'>
                                     Главная страница
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href={SIGN_UP} variant="body2">
+                                <Link href={SIGN_UP} variant='body2'>
                                     Нет аккаунта? Зарегистрироваться
                                 </Link>
                             </Grid>

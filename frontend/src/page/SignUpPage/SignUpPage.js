@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from '../../components/Copyright'
 import { ROOT } from '../../utils/routes'
+import apiCaller from '../../utils/apiCaller'
+import { useInput } from '../../utils/useInput'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -35,66 +37,87 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpPage() {
     const classes = useStyles()
+    const {onChange: onNameChange, value: name} = useInput('')
+    const {onChange: onLoginChange, value: login} = useInput('')
+    const {onChange: onPasswordChange, value: password} = useInput('')
+
+    const handleSubmit = async event => {
+        event.preventDefault()
+        const response = await apiCaller('POST', '/api/register', {
+           login,
+            password,
+            name
+        })
+
+        if (response.status === '2U0') {
+
+        }
+        console.log(response)
+    }
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component='h1' variant='h5'>
                     Регистрация
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
+                                autoComplete='fname'
+                                variant='outlined'
                                 required
                                 fullWidth
-                                id="firstName"
-                                label="Имя"
+                                id='firstName'
+                                label='Имя'
+                                value={name}
+                                onChange={onNameChange}
                                 autoFocus
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
+                                variant='outlined'
                                 required
                                 fullWidth
-                                id="login"
-                                label="Логин"
-                                name="login"
-                                autoComplete="login"
+                                id='login'
+                                label='Логин'
+                                autoComplete='login'
+                                value={login}
+                                onChange={onLoginChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
+                                variant='outlined'
                                 required
                                 fullWidth
-                                name="password"
-                                label="Пароль"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
+                                label='Пароль'
+                                type='password'
+                                id='password'
+                                autoComplete='current-password'
+                                value={password}
+                                onChange={onPasswordChange}
                             />
                         </Grid>
                     </Grid>
                     <Button
                         type="submit"
                         fullWidth
-                        variant="contained"
-                        color="primary"
+                        variant='contained'
+                        color='primary'
+                        onSubmit={handleSubmit}
                         className={classes.submit}>
                         Зарегистрироваться
                     </Button>
-                    <Grid container justify="flex-end">
+                    <Grid container justify='flex-end'>
                         <Grid item>
-                            <Link href={ROOT} variant="body2">
+                            <Link href={ROOT} variant='body2'>
                                 Уже есть аккаунт? Войти
                             </Link>
                         </Grid>
