@@ -5,6 +5,7 @@ import XSelect from './inputItems/SelectX'
 import YText from './inputItems/InputY'
 import RSelect from './inputItems/SelectR'
 import Button from '@material-ui/core/Button'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Form() {
     const classes = useStyles()
+    const { x, y, r } = useSelector((state) => state.formState)
 
     return (
         <React.Fragment>
@@ -27,7 +29,7 @@ export default function Form() {
             <form className={classes.root} noValidate autoComplete="off">
                 <XSelect />
                 <YText />
-                <RSelect />
+                <RSelect currentR={r}/>
                 <Button variant="contained" color="primary">
                     Проверить
                 </Button>

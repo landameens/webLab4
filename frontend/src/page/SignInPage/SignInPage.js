@@ -3,8 +3,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
@@ -13,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Copyright from '../../components/Copyright'
+import { SIGN_UP } from '../../utils/routes'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -92,12 +91,6 @@ export default function SignInPage() {
                             id="password"
                             autoComplete="current-password"
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Запомнить меня"
-                        />
                         <Button
                             type="submit"
                             fullWidth
@@ -109,12 +102,12 @@ export default function SignInPage() {
                         <Grid container>
                             <Grid item xs>
                                 <Link href={'/main'} variant="body2">
-                                    {'Главная страница'}
+                                    Главная страница
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href={'/signUp'} variant="body2">
-                                    {'Нет аккаунта? Зарегистрироваться'}
+                                <Link href={SIGN_UP} variant="body2">
+                                    Нет аккаунта? Зарегистрироваться
                                 </Link>
                             </Grid>
                         </Grid>

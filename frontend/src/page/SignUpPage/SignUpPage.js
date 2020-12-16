@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from '../../components/Copyright'
+import { ROOT } from '../../utils/routes'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -93,7 +94,7 @@ export default function SignUpPage() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="/" variant="body2">
+                            <Link href={ROOT} variant="body2">
                                 Уже есть аккаунт? Войти
                             </Link>
                         </Grid>
