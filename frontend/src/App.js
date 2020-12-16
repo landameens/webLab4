@@ -6,6 +6,7 @@ import MainPage from "./page/MainPage/MainPage";
 import React from "react";
 import {Provider} from "react-redux";
 import configureStore from "./state/configureStore";
+import { MAIN, ROOT, SIGN_UP } from './utils/routes'
 
 const initialState = {
     formState: {
@@ -22,18 +23,19 @@ function App() {
         <Provider store={store}>
             <Router>
                 <Switch>
-                    <Route exact path="/">
+                    <Route exact path={ROOT}>
                         <SignInPage/>
                     </Route>
-                    <Route path="/signUp">
+                    <Route path={SIGN_UP}>
                         <SignUpPage/>
                     </Route>
-                    <Route path="/main">
+                    <Route path={MAIN}>
                         <MainPage/>
                     </Route>
-                    <Redirect to="/"/>
+                    <Redirect to={ROOT}/>
                 </Switch>
-            </Router></Provider>
+            </Router>
+        </Provider>
     );
 }
 

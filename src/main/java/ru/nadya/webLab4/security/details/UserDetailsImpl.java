@@ -1,4 +1,4 @@
-package ru.nadya.webLab4.sequrity.details;
+package ru.nadya.webLab4.security.details;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

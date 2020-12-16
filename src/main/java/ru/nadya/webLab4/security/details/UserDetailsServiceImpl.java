@@ -1,4 +1,4 @@
-package ru.nadya.webLab4.sequrity.details;
+package ru.nadya.webLab4.security.details;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
