@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -11,8 +11,10 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from '../../components/Copyright'
-import { ROOT } from '../../utils/routes'
+import { MAIN, ROOT } from '../../utils/routes'
+
 import apiCaller from '../../utils/apiCaller'
+import history from '../../utils/history'
 import { useInput } from '../../utils/useInput'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,22 +39,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpPage() {
     const classes = useStyles()
-    const {onChange: onNameChange, value: name} = useInput('')
-    const {onChange: onLoginChange, value: login} = useInput('')
-    const {onChange: onPasswordChange, value: password} = useInput('')
+    const { onChange: onNameChange, value: name } = useInput('')
+    const { onChange: onLoginChange, value: login } = useInput('')
+    const { onChange: onPasswordChange, value: password } = useInput('')
 
     const handleSubmit = async event => {
         event.preventDefault()
         const response = await apiCaller('POST', '/api/register', {
-           login,
+            login,
             password,
-            name
+            name,
         })
 
-        if (response.status === '2U0') {
-
-        }
         console.log(response)
+
+        switch (response.code){
+            case '2U1':
+                this.context.history.push('/main')
+                break
+            case '4U3':
+                console.log("Пароли не совпадают")
+                break
+            default:
+                break
+        }
     }
 
     return (
@@ -107,7 +117,7 @@ export default function SignUpPage() {
                         </Grid>
                     </Grid>
                     <Button
-                        type="submit"
+                        type='submit'
                         fullWidth
                         variant='contained'
                         color='primary'

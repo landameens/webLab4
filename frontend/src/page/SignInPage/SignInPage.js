@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -13,6 +13,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Copyright from '../../components/Copyright'
 import { MAIN, SIGN_UP } from '../../utils/routes'
 import apiCaller from '../../utils/apiCaller'
+import history from '../../utils/history'
+import { useInput } from '../../utils/useInput'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,20 +51,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInPage() {
     const classes = useStyles()
-    const [login, setLogin] = useState('')
-    const [password, setPassword] = useState('')
-
-    const onChangeLogin = (value) => setLogin(value)
-    const onChangePassword = value => setPassword(value)
+    const { onChange: onChangeLogin, value: login } = useInput('')
+    const { onChange: onChangePassword, value: password } = useInput('')
 
     const handleSubmit = async event => {
         event.preventDefault()
-
-        const response = await apiCaller('POST', '/register', {
+        const response = await apiCaller('POST', '/api/signIn', {
             login,
             password,
         })
+
         console.log(response)
+
+        switch (response.code) {
+            case '2U0':
+                alert("ВЫ успешно вошли в аккаунт")
+                history.push(MAIN)
+                break
+            case '4U1':
+                console.log('Такого пользователя не существует')
+                break
+            case '4U2':
+                console.log('Пароли не совпадают')
+                break
+            default:
+                break
+        }
+
     }
 
     return (
@@ -84,7 +99,7 @@ export default function SignInPage() {
                     <Typography component='h1' variant='h5'>
                         Вход
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <TextField
                             variant='outlined'
                             margin='normal'
@@ -114,7 +129,8 @@ export default function SignInPage() {
                             fullWidth
                             variant='contained'
                             color='primary'
-                            className={classes.submit}>
+                            className={classes.submit}
+                            onSubmit={handleSubmit}>
                             Войти
                         </Button>
                         <Grid container>

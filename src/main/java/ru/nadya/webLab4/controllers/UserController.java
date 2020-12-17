@@ -12,6 +12,8 @@ import ru.nadya.webLab4.models.User;
 import ru.nadya.webLab4.repositories.UserRepository;
 import ru.nadya.webLab4.security.details.UserDetailsServiceImpl;
 
+import static ru.nadya.webLab4.models.utils.Status.*;
+
 @Controller
 public class UserController {
 
@@ -29,23 +31,23 @@ public class UserController {
         if (userRepository.findByLogin(user.getLogin()) != null) {
             UserDetails loginUser = userDetailsService.loadUserByUsername(user.getLogin());
             if (!passwordEncoder.matches(user.getPassword(), loginUser.getPassword())) {
-                return new ResponseEntity<>("{code:4U2, message:Password don't match}", HttpStatus.CONFLICT);
+                return new ResponseEntity<>("{\"code\":\"4U2\", \"message\":\"" + CODE4U2.getMessage() + "\"}", HttpStatus.CONFLICT);
             } else {
-                return new ResponseEntity<>("{code:2U0, message:User logged in successfully}", HttpStatus.OK);
+                return new ResponseEntity<>("{\"code\":\"2U0\", \"message\":\"" + CODE2U0.getMessage() + "\"}", HttpStatus.OK);
             }
         } else {
-            return new ResponseEntity<>("{code:4U1, message:User doesn't exist}", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("{\"code\":\"4U1\", \"message\":\"" + CODE4U1.getMessage() + "\"}", HttpStatus.ACCEPTED);
         }
     }
 
     @PostMapping("api/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userRepository.findByLogin(user.getLogin()) != null) {
-            return new ResponseEntity<>("{code:4U3, message:User already exist}", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("{\"code\":\"4U3\", \"message\":\"" + CODE4U3.getMessage() + "\"}", HttpStatus.CONFLICT);
         } else {
             user.setHashPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity<>("{code:2U1, message:User registered successfully}", HttpStatus.CREATED);
+            return new ResponseEntity<>("{\"code\":\"2U1\", \"message\":\"" + CODE2U1.getMessage() + "\"}", HttpStatus.CREATED);
         }
     }
 }
