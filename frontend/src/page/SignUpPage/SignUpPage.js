@@ -14,8 +14,9 @@ import Copyright from '../../components/Copyright'
 import { MAIN, ROOT } from '../../utils/routes'
 
 import apiCaller from '../../utils/apiCaller'
-import history from '../../utils/history'
 import { useInput } from '../../utils/useInput'
+import { useHistory } from 'react-router'
+import { useSnackbar } from 'notistack'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -42,9 +43,17 @@ export default function SignUpPage() {
     const { onChange: onNameChange, value: name } = useInput('')
     const { onChange: onLoginChange, value: login } = useInput('')
     const { onChange: onPasswordChange, value: password } = useInput('')
+    const snackBar = useSnackbar()
+    let history = useHistory()
 
     const handleSubmit = async event => {
         event.preventDefault()
+        if((name === '') || (login === '') || (password === '')){
+            snackBar.enqueueSnackbar('Заполните все поля', {
+                variant: 'error',
+            })
+            return
+        }
         const response = await apiCaller('POST', '/api/register', {
             login,
             password,
@@ -53,12 +62,17 @@ export default function SignUpPage() {
 
         console.log(response)
 
-        switch (response.code){
+        switch (response.code) {
             case '2U1':
-                this.context.history.push('/main')
+                snackBar.enqueueSnackbar('Вы успешно зарегистрировались', {
+                    variant: 'success',
+                })
+                history.push(MAIN)
                 break
             case '4U3':
-                console.log("Пароли не совпадают")
+                snackBar.enqueueSnackbar('Логин уже используется другим пользователем', {
+                    variant: 'error',
+                })
                 break
             default:
                 break

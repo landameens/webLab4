@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -13,8 +13,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Copyright from '../../components/Copyright'
 import { MAIN, SIGN_UP } from '../../utils/routes'
 import apiCaller from '../../utils/apiCaller'
-import history from '../../utils/history'
 import { useInput } from '../../utils/useInput'
+import { useHistory } from 'react-router'
+import { useSnackbar } from 'notistack'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,9 +54,17 @@ export default function SignInPage() {
     const classes = useStyles()
     const { onChange: onChangeLogin, value: login } = useInput('')
     const { onChange: onChangePassword, value: password } = useInput('')
+    const snackBar = useSnackbar()
+    let history = useHistory()
 
     const handleSubmit = async event => {
         event.preventDefault()
+        if((login === '') || (password === '')){
+            snackBar.enqueueSnackbar('Заполните все поля', {
+                variant: 'error',
+            })
+            return
+        }
         const response = await apiCaller('POST', '/api/signIn', {
             login,
             password,
@@ -65,14 +74,20 @@ export default function SignInPage() {
 
         switch (response.code) {
             case '2U0':
-                alert("ВЫ успешно вошли в аккаунт")
+                snackBar.enqueueSnackbar('Вы успешно вошли в аккаунт', {
+                    variant: 'success',
+                })
                 history.push(MAIN)
                 break
             case '4U1':
-                console.log('Такого пользователя не существует')
+                snackBar.enqueueSnackbar('Такого пользователя не существует', {
+                    variant: 'error',
+                })
                 break
             case '4U2':
-                console.log('Пароли не совпадают')
+                snackBar.enqueueSnackbar('Неверный пароль', {
+                    variant: 'error',
+                })
                 break
             default:
                 break
@@ -134,11 +149,6 @@ export default function SignInPage() {
                             Войти
                         </Button>
                         <Grid container>
-                            <Grid item xs>
-                                <Link href={MAIN} variant='body2'>
-                                    Главная страница
-                                </Link>
-                            </Grid>
                             <Grid item>
                                 <Link href={SIGN_UP} variant='body2'>
                                     Нет аккаунта? Зарегистрироваться

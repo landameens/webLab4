@@ -32,7 +32,7 @@ export default function RSelect(currentR) {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={currentR}
+                    value={currentR ? null : ''}
                     onChange={handleChange}>
                     <MenuItem value={1}>1</MenuItem>
                     <MenuItem value={2}>2</MenuItem>
