@@ -17,13 +17,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function XSelect() {
+export default function XSelect(currentX) {
     const classes = useStyles()
-    const [xSelect, setX] = React.useState('')
     const dispatch = useDispatch()
 
     const handleChange = (event) => {
-        setX(event.target.value)
         dispatch(updateX(event.target.value))
     }
 
@@ -34,7 +32,7 @@ export default function XSelect() {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={xSelect}
+                    value={currentX.currentX}
                     onChange={handleChange}>
                     <MenuItem value={-3}>-3</MenuItem>
                     <MenuItem value={-2}>-2</MenuItem>

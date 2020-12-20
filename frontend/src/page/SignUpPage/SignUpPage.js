@@ -44,11 +44,11 @@ export default function SignUpPage() {
     const { onChange: onLoginChange, value: login } = useInput('')
     const { onChange: onPasswordChange, value: password } = useInput('')
     const snackBar = useSnackbar()
-    let history = useHistory()
+    const history = useHistory()
 
     const handleSubmit = async event => {
         event.preventDefault()
-        if((name === '') || (login === '') || (password === '')){
+        if ((name === '') || (login === '') || (password === '')) {
             snackBar.enqueueSnackbar('Заполните все поля', {
                 variant: 'error',
             })
@@ -64,6 +64,7 @@ export default function SignUpPage() {
 
         switch (response.code) {
             case '2U1':
+                localStorage.setItem('user', response.user)
                 snackBar.enqueueSnackbar('Вы успешно зарегистрировались', {
                     variant: 'success',
                 })

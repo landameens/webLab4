@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -55,11 +55,17 @@ export default function SignInPage() {
     const { onChange: onChangeLogin, value: login } = useInput('')
     const { onChange: onChangePassword, value: password } = useInput('')
     const snackBar = useSnackbar()
-    let history = useHistory()
+    const history = useHistory()
+
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            history.push(MAIN)
+        }
+    }, [])
 
     const handleSubmit = async event => {
         event.preventDefault()
-        if((login === '') || (password === '')){
+        if ((login === '') || (password === '')) {
             snackBar.enqueueSnackbar('Заполните все поля', {
                 variant: 'error',
             })
@@ -74,6 +80,7 @@ export default function SignInPage() {
 
         switch (response.code) {
             case '2U0':
+                localStorage.setItem('user', response.user)
                 snackBar.enqueueSnackbar('Вы успешно вошли в аккаунт', {
                     variant: 'success',
                 })

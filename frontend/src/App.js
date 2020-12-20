@@ -22,7 +22,7 @@ const store = configureStore(initialState)
 
 function App() {
     return (
-        <SnackbarProvider maxSnack={3}>
+        <SnackbarProvider maxSnack={2}>
             <Provider store={store}>
                 <Router history={history}>
                     <Switch>

@@ -10,18 +10,20 @@ import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
-import Badge from '@material-ui/core/Badge'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { mainListItems } from './components/menu/listItems'
 import Graph from './components/graph/Graph'
 import Form from './components/dataForm/Form'
 import History from './components/history/History'
 import Copyright from '../../components/Copyright'
+import { Avatar, Menu, MenuItem } from '@material-ui/core'
+import { useHistory } from 'react-router'
+import { ROOT } from '../../utils/routes'
+import { deepOrange } from '@material-ui/core/colors'
 
 const drawerWidth = 240
 
@@ -102,10 +104,16 @@ const useStyles = makeStyles((theme) => ({
     fixedHeight: {
         height: 415,
     },
+    orange: {
+        color: theme.palette.getContrastText(deepOrange[500]),
+        backgroundColor: deepOrange[500],
+    },
 }))
 
 export default function MainPage() {
     const classes = useStyles()
+    const history = useHistory()
+
     const [open, setOpen] = React.useState(true)
     const handleDrawerOpen = () => {
         setOpen(true)
@@ -115,17 +123,33 @@ export default function MainPage() {
     }
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const openAcc = Boolean(anchorEl)
+
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null)
+    }
+    const handleCloseExit = () => {
+        setAnchorEl(null)
+        localStorage.removeItem('user')
+        history.push(ROOT)
+    }
+
     return (
         <div className={classes.root}>
             <CssBaseline />
             <AppBar
-                position="absolute"
+                position='absolute'
                 className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
+                        edge='start'
+                        color='inherit'
+                        aria-label='open drawer'
                         onClick={handleDrawerOpen}
                         className={clsx(
                             classes.menuButton,
@@ -134,22 +158,43 @@ export default function MainPage() {
                         <MenuIcon />
                     </IconButton>
                     <Typography
-                        component="h1"
-                        variant="h6"
-                        color="inherit"
+                        component='h1'
+                        variant='h6'
+                        color='inherit'
                         noWrap
                         className={classes.title}>
                         Проверятель
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge color="secondary">
-                            <AccountCircleIcon />
-                        </Badge>
+                    <IconButton
+                        aria-label='account of current user'
+                        aria-controls='menu-appbar'
+                        aria-haspopup='true'
+                        onClick={handleMenu}
+                        color='inherit'
+                    >
+                        <Avatar className={classes.orange}>{localStorage.getItem('user').substring(0, 1)}</Avatar>
                     </IconButton>
+                    <Menu
+                        id='menu-appbar'
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={openAcc}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleCloseExit}>Выйти из аккаунта</MenuItem>
+                    </Menu>
                 </Toolbar>
             </AppBar>
             <Drawer
-                variant="permanent"
+                variant='permanent'
                 classes={{
                     paper: clsx(
                         classes.drawerPaper,
@@ -167,7 +212,7 @@ export default function MainPage() {
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Container maxWidth="lg" className={classes.container}>
+                <Container maxWidth='lg' className={classes.container}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={8} lg={8}>
                             <Paper className={fixedHeightPaper}>

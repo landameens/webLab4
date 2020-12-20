@@ -1,9 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useFormik } from 'formik'
-import * as yup from 'yup'
 import FormControl from '@material-ui/core/FormControl'
 import { TextField } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { updateY } from '../../../../../state/form/actions'
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -12,34 +12,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const validationSchema = yup.number({
-    y: yup.number,
-})
-
 export default function YText() {
     const classes = useStyles()
+    const dispatch = useDispatch()
 
-    const formik = useFormik({
-        initialValues: {
-            y: '',
-        },
-        validationSchema: validationSchema,
-        validateOnChange: (values) => {
-            alert(JSON.stringify(values, null, 2))
-        },
-    })
+    const handleChange = event => {
+        dispatch(updateY(Number(event.target.value)))
+    }
 
     return (
         <div>
             <FormControl className={classes.formControl}>
                 <TextField
-                    id="standard-basic"
-                    name="y"
-                    label="Y"
-                    value={formik.values.y}
-                    onChange={formik.handleChange}
-                    error={formik.touched.y && Boolean(formik.errors.y)}
-                    helperText={formik.touched.y && formik.errors.y}
+                    id='standard-basic'
+                    name='y'
+                    type='number'
+                    label='Y'
+                    helperText='Число от -5 до 5'
+                    onChange={handleChange}
                 />
             </FormControl>
         </div>

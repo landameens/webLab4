@@ -27,13 +27,14 @@ public class UserController {
     private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("api/signIn")
+    //ToDo: разобраться с <?>
     public ResponseEntity<?> login(@RequestBody User user) {
         if (userRepository.findByLogin(user.getLogin()) != null) {
             UserDetails loginUser = userDetailsService.loadUserByUsername(user.getLogin());
             if (!passwordEncoder.matches(user.getPassword(), loginUser.getPassword())) {
                 return new ResponseEntity<>("{\"code\":\"4U2\", \"message\":\"" + CODE4U2.getMessage() + "\"}", HttpStatus.CONFLICT);
             } else {
-                return new ResponseEntity<>("{\"code\":\"2U0\", \"message\":\"" + CODE2U0.getMessage() + "\"}", HttpStatus.OK);
+                return new ResponseEntity<>("{\"code\":\"2U0\", \"message\":\"" + CODE2U0.getMessage() + "\", \"user\":\""+ user.getLogin() + "\"}", HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>("{\"code\":\"4U1\", \"message\":\"" + CODE4U1.getMessage() + "\"}", HttpStatus.ACCEPTED);
@@ -47,7 +48,7 @@ public class UserController {
         } else {
             user.setHashPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity<>("{\"code\":\"2U1\", \"message\":\"" + CODE2U1.getMessage() + "\"}", HttpStatus.CREATED);
+            return new ResponseEntity<>("{\"code\":\"2U1\", \"message\":\"" + CODE2U1.getMessage() + "\", \"user\":\""+ user.getLogin() + "\"}", HttpStatus.CREATED);
         }
     }
 }
