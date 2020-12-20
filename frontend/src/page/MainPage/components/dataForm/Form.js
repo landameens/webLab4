@@ -28,7 +28,6 @@ export default function Form() {
 
     const handleSubmit = async event => {
         event.preventDefault()
-
         if ((x === null) || (y === null) || (r === null)) {
             snackBar.enqueueSnackbar('Заполните все поля', {
                 variant: 'error',
@@ -36,14 +35,11 @@ export default function Form() {
             return
         }
 
-        const user = localStorage.getItem('user')
-
         const response = await apiCaller('POST', '/api/checkPoint', {
             x,
             y,
-            r,
-            user
-        })
+            r
+        }, true)
 
         console.log(response)
     }

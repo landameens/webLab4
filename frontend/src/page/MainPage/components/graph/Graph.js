@@ -9,9 +9,12 @@ import Triangle from './graphParts/Triangle'
 import Arrows from './graphParts/Arrows'
 import Labels from './graphParts/Labels'
 import { useSelector } from 'react-redux'
+import Area from './graphParts/Area'
+
 
 export default function Graph() {
     const { r } = useSelector((state) => state.formState)
+
     return (
         <>
             <Title>График</Title>
@@ -24,6 +27,7 @@ export default function Graph() {
                     <XAxe />
                     <Arrows />
                     <Labels r={r} />
+                    <Area r={r}/>
                 </Layer>
             </Stage>
         </>

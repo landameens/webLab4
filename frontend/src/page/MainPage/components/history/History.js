@@ -48,7 +48,7 @@ export default function History() {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Дата и время</TableCell>
+                        <TableCell>Дата</TableCell>
                         <TableCell>X</TableCell>
                         <TableCell>Y</TableCell>
                         <TableCell>R</TableCell>

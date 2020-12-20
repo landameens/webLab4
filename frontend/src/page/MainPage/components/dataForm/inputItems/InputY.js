@@ -26,9 +26,10 @@ export default function YText() {
                 <TextField
                     id='standard-basic'
                     name='y'
-                    type='number'
                     label='Y'
                     helperText='Число от -5 до 5'
+                    type='tel'
+                    pattern="^-?[0-9]\d*\.?\d*$"
                     onChange={handleChange}
                 />
             </FormControl>

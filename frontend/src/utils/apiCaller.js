@@ -1,4 +1,3 @@
-const BASE_URL = 'http://localhost:8080'
 
 function apiCaller(
     method,
@@ -12,7 +11,7 @@ function apiCaller(
     }
 
     if (addLogin) {
-        data.login = localStorage.getItem('login')
+        data.login = localStorage.getItem('user')
     }
 
     return fetch(path, {

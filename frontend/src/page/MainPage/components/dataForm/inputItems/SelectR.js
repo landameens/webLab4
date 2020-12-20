@@ -28,10 +28,10 @@ export default function RSelect(currentR) {
     return (
         <div>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">R</InputLabel>
+                <InputLabel id='demo-simple-select-label'>R</InputLabel>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
                     value={currentR.currentR}
                     onChange={handleChange}>
                     <MenuItem value={1}>1</MenuItem>
