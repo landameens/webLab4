@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import apiCaller from '../../../../utils/apiCaller'
 import { useSnackbar } from 'notistack'
 import { addDot } from '../../../../state/points/actions'
+import checker from '../../../../utils/checker'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,7 +44,7 @@ export default function Form() {
             r,
         }, true)
 
-        dispatch(addDot({id: null, x, y, r, result: false}))
+        dispatch(addDot({id: null, x, y, r, result: checker(x, y, r)}))
 
         console.log(response)
     }

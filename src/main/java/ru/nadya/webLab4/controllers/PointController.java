@@ -30,7 +30,6 @@ public class PointController {
 
     @PostMapping("/api/point/user")
     public Collection<Point> getAllUserPoints(@RequestBody Point point) {
-        System.out.println(point.getLogin());
         return pointRepository.findAllByLogin(point.getLogin());
 //        return new ResponseEntity<>("{\"points\":[" + points + "]\"}", HttpStatus.OK);
     }

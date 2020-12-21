@@ -13,7 +13,7 @@ public class PointChecker {
         boolean inCircleQuadrant = ((x >= 0 && y >= 0) && (x * x + y * y <= r * r));
         boolean inSquare = (x <= 0 && x >= -r && y >= 0 && y <= r);
         boolean inTriangle = (x >= 0 && x <= r) && (y <= 0 && y >= -(r / 2)) &&
-                y >= (-(r / 2) + x);
+                y >= (-(r / 2) + (x / 2));
 
         return inCircleQuadrant || inSquare || inTriangle;
     }

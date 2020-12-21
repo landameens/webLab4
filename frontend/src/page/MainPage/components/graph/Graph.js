@@ -9,11 +9,12 @@ import Triangle from './graphParts/Triangle'
 import Arrows from './graphParts/Arrows'
 import Labels from './graphParts/Labels'
 import Area from './graphParts/Area'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Dot from './graphParts/Dot'
 
 export default function Graph(props) {
     const { r } = useSelector((state) => state.formState)
+    const dispatch = useDispatch()
 
     return (
         <>
@@ -29,9 +30,9 @@ export default function Graph(props) {
                     <Labels r={r} />
                     {props.dots.map((dot, index) => {
                         if (dot.r !== r) return <></>
-                        return <Dot key={index} x={dot.x} y={dot.y} />
+                        return <Dot key={index} x={dot.x} y={dot.y} r={dot.r} result={dot.result} />
                     })}
-                    <Area r={r} />
+                    <Area r={r} dispatch={dispatch}/>
                 </Layer>
             </Stage>
         </>
