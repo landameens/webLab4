@@ -22,7 +22,7 @@ public class PointController {
     @Autowired
     private PointChecker pointChecker;
 
-    @PostMapping("api/checkPoint")
+    @PostMapping("api/point")
     public ResponseEntity<?> addNewPoint(@RequestBody Point point, String login) {
         point.setResult(pointChecker.checkPoint(point));
         point.setLogin(login);
@@ -31,7 +31,7 @@ public class PointController {
         return new ResponseEntity<>("{\"result\":\"Точка добавлена успешно\", \"user\":\"" + login + "\"}", HttpStatus.OK);
     }
 
-    @GetMapping("/api/getPoints")
+    @GetMapping("/api/point")
     public ResponseEntity<?> getAllUserPoints(@RequestParam String login) {
         Collection<Point> points = pointRepository.findAllByLogin(login);
         return new ResponseEntity<>("{\"points\":\"" + points + "\"}", HttpStatus.OK);

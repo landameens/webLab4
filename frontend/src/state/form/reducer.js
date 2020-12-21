@@ -3,7 +3,7 @@ import { UPDATE_R, UPDATE_X, UPDATE_Y } from './actionTypes'
 const initialState = {
     x: null,
     y: null,
-    r: null,
+    r: 1,
 }
 
 export const formReducer = (state = initialState, action) => {

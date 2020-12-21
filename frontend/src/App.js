@@ -14,7 +14,7 @@ const initialState = {
     formState: {
         x: null,
         y: null,
-        r: null,
+        r: 1,
     },
 }
 

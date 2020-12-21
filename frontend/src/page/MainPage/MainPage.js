@@ -17,7 +17,7 @@ import Copyright from '../../components/Copyright'
 import { Avatar, Menu, MenuItem } from '@material-ui/core'
 import { useHistory } from 'react-router'
 import { ROOT } from '../../utils/routes'
-import { deepPurple } from '@material-ui/core/colors'
+import { deepOrange, deepPurple } from '@material-ui/core/colors'
 
 const drawerWidth = 240
 
@@ -90,9 +90,9 @@ const useStyles = makeStyles((theme) => ({
     fixedHeight: {
         height: 420,
     },
-    purple: {
-        color: theme.palette.getContrastText(deepPurple[500]),
-        backgroundColor: deepPurple[500],
+    orange: {
+        color: theme.palette.getContrastText(deepOrange[500]),
+        backgroundColor: deepOrange[500],
     },
 }))
 
@@ -140,7 +140,7 @@ export default function MainPage() {
                         onClick={handleMenu}
                         color='inherit'
                     >
-                        <Avatar className={classes.purple}>{localStorage.getItem('user').substring(0, 1)}</Avatar>
+                        <Avatar className={classes.orange}>{localStorage.getItem('user').substring(0, 1)}</Avatar>
                     </IconButton>
                     <Menu
                         id='menu-appbar'

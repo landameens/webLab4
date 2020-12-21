@@ -45,14 +45,14 @@ export default function History() {
     return (
         <>
             <Title>История</Title>
-            <Table size="small">
+            <Table size='small'>
                 <TableHead>
                     <TableRow>
                         <TableCell>Дата</TableCell>
                         <TableCell>X</TableCell>
                         <TableCell>Y</TableCell>
                         <TableCell>R</TableCell>
-                        <TableCell align="right">Результат попадания</TableCell>
+                        <TableCell align='right'>Результат попадания</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -62,13 +62,13 @@ export default function History() {
                             <TableCell>{row.x}</TableCell>
                             <TableCell>{row.y}</TableCell>
                             <TableCell>{row.r}</TableCell>
-                            <TableCell align="right">{row.result}</TableCell>
+                            <TableCell align='right'>{row.result}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
             <div className={classes.seeMore}>
-                <Link color="primary" href="#" onClick={handleModalOpen}>
+                <Link color='primary' href='#' onClick={handleModalOpen}>
                     Увидеть больше результатов
                 </Link>
             </div>

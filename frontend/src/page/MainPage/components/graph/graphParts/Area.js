@@ -1,32 +1,27 @@
 import { Rect } from 'react-konva'
 import React from 'react'
-import { useSnackbar, withSnackbar } from 'notistack'
 import apiCaller from '../../../../../utils/apiCaller'
 
-function Area(props) {
-    const snackBar = useSnackbar()
-
+export default function Area(props) {
     const hanldeClick = async event => {
-        console.log(event)
-        if (props.r == null) {
-            console.log(snackBar)
-            snackBar.enqueueSnackbar('Выберите R', {
-                variant: 'error',
-            })
-            return
+        const r = props.r
+
+        const getCoord = (event, k) => {
+            return {
+                x: (event.evt.clientX - 190) * k,
+                y: (330 - event.evt.clientY) * k,
+            }
         }
-        console.log(event)
-        const x = event.evt.clientX
-        const y = event.evt.clientY
 
-        const xNormal = (x - 190) / 140 * props.r
-        const yNormal = (330 - y) / 140 * props.r
-        console.log({ xNormal, yNormal })
+        const k = r / 140
+        const coord = getCoord(event, k)
+        const x = coord.x
+        const y = coord.y
 
-        const response = await apiCaller('POST', '/api/checkPoint', {
-            xNormal,
-            yNormal,
-            r: props.r,
+        const response = await apiCaller('POST', '/api/point', {
+            x,
+            y,
+            r,
         }, true)
 
         console.log(response)
@@ -41,4 +36,3 @@ function Area(props) {
         />
     )
 }
-export default Area

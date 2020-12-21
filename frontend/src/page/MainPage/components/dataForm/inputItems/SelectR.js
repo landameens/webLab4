@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function RSelect(currentR) {
+export default function RSelect(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
 
@@ -32,7 +32,7 @@ export default function RSelect(currentR) {
                 <Select
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
-                    value={currentR.currentR}
+                    value={props.currentR}
                     onChange={handleChange}>
                     <MenuItem value={1}>1</MenuItem>
                     <MenuItem value={2}>2</MenuItem>

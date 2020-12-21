@@ -1,10 +1,10 @@
-import {logger} from "redux-logger";
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import {formReducer} from "./form/reducer";
+import { logger } from 'redux-logger'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import { formReducer } from './form/reducer'
 
 const configureStore = (initialState) => {
     const rootReducer = combineReducers({
-        formState: formReducer
+        formState: formReducer,
     })
 
     return createStore(rootReducer, initialState, applyMiddleware(logger))

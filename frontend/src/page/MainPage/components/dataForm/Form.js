@@ -35,7 +35,7 @@ export default function Form() {
             return
         }
 
-        const response = await apiCaller('POST', '/api/checkPoint', {
+        const response = await apiCaller('POST', '/api/point', {
             x,
             y,
             r

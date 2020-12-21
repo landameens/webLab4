@@ -1,14 +1,9 @@
 import React from 'react'
 import { Text } from 'react-konva'
 
-export default function Labels(r) {
-    let val = Number(r.r)
+export default function Labels(props) {
+    let val = props.r
     let halfVal = val / 2
-
-    if (val === 0) {
-        val = 'R'
-        halfVal = 'R/2'
-    }
 
     return (
         <>

@@ -1,4 +1,3 @@
-
 function apiCaller(
     method,
     path,
