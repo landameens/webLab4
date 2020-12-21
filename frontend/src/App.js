@@ -16,6 +16,7 @@ const initialState = {
         y: null,
         r: 1,
     },
+    dots: [],
 }
 
 const store = configureStore(initialState)

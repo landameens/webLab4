@@ -9,19 +9,13 @@ import TableRow from '@material-ui/core/TableRow'
 import Title from '../../../../components/Title'
 import { Modal } from '@material-ui/core'
 
-function createPoint(id, date, x, y, r, result) {
-    return { id, date, x, y, r, result }
-}
-
-const rows = [createPoint(0, '16 Mar, 2019', '1', '0', '0', 'true')]
-
 const useStyles = makeStyles((theme) => ({
     seeMore: {
         marginTop: theme.spacing(3),
     },
 }))
 
-export default function History() {
+export default function History(props) {
     const [isOpen, setOpen] = useState(false)
     const classes = useStyles()
 
@@ -48,7 +42,7 @@ export default function History() {
             <Table size='small'>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Дата</TableCell>
+                        {/*<TableCell>Дата</TableCell>*/}
                         <TableCell>X</TableCell>
                         <TableCell>Y</TableCell>
                         <TableCell>R</TableCell>
@@ -56,13 +50,13 @@ export default function History() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.date}</TableCell>
-                            <TableCell>{row.x}</TableCell>
-                            <TableCell>{row.y}</TableCell>
-                            <TableCell>{row.r}</TableCell>
-                            <TableCell align='right'>{row.result}</TableCell>
+                    {props.dots.map((dot, index) => (
+                        <TableRow key={index}>
+                            {/*<TableCell>{dot.date}</TableCell>*/}
+                            <TableCell>{dot.x}</TableCell>
+                            <TableCell>{dot.y}</TableCell>
+                            <TableCell>{dot.r}</TableCell>
+                            <TableCell align='right'>{String(dot.result)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

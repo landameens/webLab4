@@ -17,8 +17,16 @@ import apiCaller from '../../utils/apiCaller'
 import { useInput } from '../../utils/useInput'
 import { useHistory } from 'react-router'
 import { useSnackbar } from 'notistack'
+import { createMuiTheme } from '@material-ui/core'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme = createMuiTheme({
+    breakpoints: {
+        values: {
+            mobile: 854,
+            tablet: 1260,
+        },
+    },
+})) => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',

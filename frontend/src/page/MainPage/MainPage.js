@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -14,14 +14,26 @@ import Graph from './components/graph/Graph'
 import Form from './components/dataForm/Form'
 import History from './components/history/History'
 import Copyright from '../../components/Copyright'
-import { Avatar, Menu, MenuItem } from '@material-ui/core'
+import { Avatar, createMuiTheme, Menu, MenuItem } from '@material-ui/core'
 import { useHistory } from 'react-router'
 import { ROOT } from '../../utils/routes'
-import { deepOrange, deepPurple } from '@material-ui/core/colors'
+import { deepOrange } from '@material-ui/core/colors'
+import apiCaller from '../../utils/apiCaller'
+import { useDispatch, useSelector } from 'react-redux'
+import { getDots } from '../../state/points/actions'
 
 const drawerWidth = 240
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+    breakpoints: {
+        values: {
+            mobile: 854,
+            tablet: 1260,
+        },
+    },
+})
+
+const useStyles = makeStyles((theme = theme) => ({
     root: {
         display: 'flex',
     },
@@ -99,6 +111,8 @@ const useStyles = makeStyles((theme) => ({
 export default function MainPage() {
     const classes = useStyles()
     const history = useHistory()
+    const dispatch = useDispatch()
+    const { dots } = useSelector(state => state.dotsState)
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
@@ -117,6 +131,11 @@ export default function MainPage() {
         localStorage.removeItem('user')
         history.push(ROOT)
     }
+
+    useEffect(async () => {
+        const response = await apiCaller('POST', '/api/point/user', {}, true)
+        dispatch(getDots(response))
+    }, [])
 
     return (
         <div className={classes.root}>
@@ -167,7 +186,7 @@ export default function MainPage() {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={8} lg={8}>
                             <Paper className={fixedHeightPaper}>
-                                <Graph />
+                                <Graph dots={dots} />
                             </Paper>
                         </Grid>
                         <Grid item xs={12} md={4} lg={4}>
@@ -177,7 +196,7 @@ export default function MainPage() {
                         </Grid>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <History />
+                                <History dots={dots}/>
                             </Paper>
                         </Grid>
                     </Grid>

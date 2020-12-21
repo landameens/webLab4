@@ -1,8 +1,11 @@
 import { Rect } from 'react-konva'
 import React from 'react'
 import apiCaller from '../../../../../utils/apiCaller'
+import { addDot } from '../../../../../state/points/actions'
+import { useDispatch } from 'react-redux'
 
 export default function Area(props) {
+    // const dispatch = useDispatch()
     const hanldeClick = async event => {
         const r = props.r
 
@@ -23,6 +26,8 @@ export default function Area(props) {
             y,
             r,
         }, true)
+
+        // dispatch(addDot({ id: null, x, y, r, result: false, login: null }))
 
         console.log(response)
     }

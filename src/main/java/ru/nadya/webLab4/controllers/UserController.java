@@ -28,13 +28,13 @@ public class UserController {
 
     @PostMapping("api/signIn")
     //ToDo: разобраться с <?>
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<String> login(@RequestBody User user) {
         if (userRepository.findByLogin(user.getLogin()) != null) {
             UserDetails loginUser = userDetailsService.loadUserByUsername(user.getLogin());
             if (!passwordEncoder.matches(user.getPassword(), loginUser.getPassword())) {
                 return new ResponseEntity<>("{\"code\":\"4U2\", \"message\":\"" + CODE4U2.getMessage() + "\"}", HttpStatus.CONFLICT);
             } else {
-                return new ResponseEntity<>("{\"code\":\"2U0\", \"message\":\"" + CODE2U0.getMessage() + "\", \"user\":\""+ user.getLogin() + "\"}", HttpStatus.OK);
+                return new ResponseEntity<>("{\"code\":\"2U0\", \"message\":\"" + CODE2U0.getMessage() + "\", \"user\":\"" + user.getLogin() + "\"}", HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>("{\"code\":\"4U1\", \"message\":\"" + CODE4U1.getMessage() + "\"}", HttpStatus.ACCEPTED);
@@ -42,13 +42,13 @@ public class UserController {
     }
 
     @PostMapping("api/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<String> register(@RequestBody User user) {
         if (userRepository.findByLogin(user.getLogin()) != null) {
             return new ResponseEntity<>("{\"code\":\"4U3\", \"message\":\"" + CODE4U3.getMessage() + "\"}", HttpStatus.CONFLICT);
         } else {
             user.setHashPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity<>("{\"code\":\"2U1\", \"message\":\"" + CODE2U1.getMessage() + "\", \"user\":\""+ user.getLogin() + "\"}", HttpStatus.CREATED);
+            return new ResponseEntity<>("{\"code\":\"2U1\", \"message\":\"" + CODE2U1.getMessage() + "\", \"user\":\"" + user.getLogin() + "\"}", HttpStatus.CREATED);
         }
     }
 }
