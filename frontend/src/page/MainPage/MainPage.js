@@ -14,7 +14,7 @@ import Graph from './components/graph/Graph'
 import Form from './components/dataForm/Form'
 import History from './components/history/History'
 import Copyright from '../../components/Copyright'
-import { Avatar, createMuiTheme, Menu, MenuItem } from '@material-ui/core'
+import { Avatar, Menu, MenuItem } from '@material-ui/core'
 import { useHistory } from 'react-router'
 import { ROOT } from '../../utils/routes'
 import { deepOrange } from '@material-ui/core/colors'
@@ -24,16 +24,8 @@ import { getDots } from '../../state/points/actions'
 
 const drawerWidth = 240
 
-const theme = createMuiTheme({
-    breakpoints: {
-        values: {
-            mobile: 854,
-            tablet: 1260,
-        },
-    },
-})
 
-const useStyles = makeStyles((theme = theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
@@ -79,9 +71,6 @@ const useStyles = makeStyles((theme = theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
-        },
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -184,19 +173,19 @@ export default function MainPage() {
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth='lg' className={classes.container}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12} md={8} lg={8}>
+                        <Grid item xs={10} md={12} lg={8}>
                             <Paper className={fixedHeightPaper}>
                                 <Graph dots={dots} />
                             </Paper>
                         </Grid>
-                        <Grid item xs={12} md={4} lg={4}>
+                        <Grid item xs={10} md={12} lg={4}>
                             <Paper className={fixedHeightPaper}>
                                 <Form />
                             </Paper>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={10} ld={12}>
                             <Paper className={classes.paper}>
-                                <History dots={dots}/>
+                                <History dots={dots} />
                             </Paper>
                         </Grid>
                     </Grid>
