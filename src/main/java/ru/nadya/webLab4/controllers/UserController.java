@@ -1,20 +1,20 @@
 package ru.nadya.webLab4.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import ru.nadya.webLab4.controllers.responses.Response;
+import ru.nadya.webLab4.controllers.responses.UserResponse;
 import ru.nadya.webLab4.models.User;
 import ru.nadya.webLab4.repositories.UserRepository;
 import ru.nadya.webLab4.security.details.UserDetailsServiceImpl;
 
 import static ru.nadya.webLab4.models.utils.Status.*;
 
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -26,29 +26,40 @@ public class UserController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    private UserResponse response = new UserResponse();
+
+
     @PostMapping("api/signIn")
-    //ToDo: разобраться с <?>
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public Response login(@RequestBody User user) {
         if (userRepository.findByLogin(user.getLogin()) != null) {
             UserDetails loginUser = userDetailsService.loadUserByUsername(user.getLogin());
             if (!passwordEncoder.matches(user.getPassword(), loginUser.getPassword())) {
-                return new ResponseEntity<>("{\"code\":\"4U2\", \"message\":\"" + CODE4U2.getMessage() + "\"}", HttpStatus.CONFLICT);
+                response.setCode("4U2");
+                response.setMessage(CODE4U2.getMessage());
             } else {
-                return new ResponseEntity<>("{\"code\":\"2U0\", \"message\":\"" + CODE2U0.getMessage() + "\", \"user\":\"" + user.getLogin() + "\"}", HttpStatus.OK);
+                response.setCode("2U0");
+                response.setMessage(CODE2U0.getMessage());
+                response.setUser(user.getLogin());
             }
         } else {
-            return new ResponseEntity<>("{\"code\":\"4U1\", \"message\":\"" + CODE4U1.getMessage() + "\"}", HttpStatus.ACCEPTED);
+            response.setCode("4U1");
+            response.setMessage(CODE4U1.getMessage());
         }
+        return response;
     }
 
     @PostMapping("api/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public Response register(@RequestBody User user) {
         if (userRepository.findByLogin(user.getLogin()) != null) {
-            return new ResponseEntity<>("{\"code\":\"4U3\", \"message\":\"" + CODE4U3.getMessage() + "\"}", HttpStatus.CONFLICT);
+            response.setCode("4U3");
+            response.setMessage(CODE4U3.getMessage());
         } else {
             user.setHashPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity<>("{\"code\":\"2U1\", \"message\":\"" + CODE2U1.getMessage() + "\", \"user\":\"" + user.getLogin() + "\"}", HttpStatus.CREATED);
+            response.setCode("2U1");
+            response.setMessage(CODE2U1.getMessage());
+            response.setUser(user.getLogin());
         }
+        return response;
     }
 }

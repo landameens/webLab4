@@ -1,11 +1,11 @@
 package ru.nadya.webLab4.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.nadya.webLab4.controllers.responses.PointResponse;
+import ru.nadya.webLab4.controllers.responses.Response;
 import ru.nadya.webLab4.models.Point;
 import ru.nadya.webLab4.repositories.PointChecker;
 import ru.nadya.webLab4.repositories.PointRepository;
@@ -20,17 +20,21 @@ public class PointController {
     @Autowired
     private PointChecker pointChecker;
 
+    private PointResponse response = new PointResponse();
+
     @PostMapping("api/point")
-    public ResponseEntity<?> addNewPoint(@RequestBody Point point) {
+    public Response addNewPoint(@RequestBody Point point) {
         point.setResult(pointChecker.checkPoint(point));
         pointRepository.save(point);
 
-        return new ResponseEntity<>("{\"result\":\"Точка добавлена успешно\", \"user\":\"" + point.getLogin() + "\"}", HttpStatus.OK);
+        response.setResult("Точка добавлена успешно");
+        response.setUser(point.getLogin());
+
+        return response;
     }
 
     @PostMapping("/api/point/user")
     public Collection<Point> getAllUserPoints(@RequestBody Point point) {
         return pointRepository.findAllByLogin(point.getLogin());
-//        return new ResponseEntity<>("{\"points\":[" + points + "]\"}", HttpStatus.OK);
     }
 }
